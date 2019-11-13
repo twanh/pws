@@ -9,7 +9,7 @@ import numpy as np # Data manipulation
 from tqdm import tqdm # Pretty progressbars :)
 import sys
 
-# Seupt
+# Setup
 np.set_printoptions(threshold=sys.maxsize)
 
 
