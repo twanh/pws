@@ -7,6 +7,11 @@ import os # File navigation
 import cv2 # Image manipulation
 import numpy as np # Data manipulation
 from tqdm import tqdm # Pretty progressbars :)
+import sys
+
+# Seupt
+np.set_printoptions(threshold=sys.maxsize)
+
 
 # Speciffy if you want to rebuilt the data yes(=True), or not(=False)
 # TODO: Replace wit commandline argument (no hardcoding)
@@ -74,7 +79,7 @@ class FaceData():
 
         for indx, path in enumerate(folder_paths):
             # Loop trough files in the folder  
-            print(path, indx)
+            # print(path, indx)
             # Limit at self.max_pictures
             for file in tqdm(os.listdir(path)[:self.max_pictures]):
                 # Construct abs file path
@@ -88,6 +93,7 @@ class FaceData():
                         img = cv2.resize(img, (self.IMG_SIZE, self.IMG_SIZE))
                         # Add label
                         label = self.FACES_LABELS[indx]
+                        print(folder_path, label)
                         # Add to training_data
                         self.training_data.append([np.array(img), np.eye(self.n_labels)[self.FACES_LABELS.index(label)]])
                     except Exception as e:
