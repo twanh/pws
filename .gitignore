@@ -1,2 +1,5 @@
 .vscode/
 faces/
+*.npy
+__pycache__/
+
