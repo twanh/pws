@@ -29,6 +29,9 @@ class FaceData():
     # TODO: Replace wit cmd-line arg 
     ROOT_DIR = 'faces'
 
+    # Save format
+    file_save_name = 'training_data_{}'
+
     # LABELS
     FACES_LABELS = [] 
     # FACES_LABELS_NAME = []
@@ -53,38 +56,30 @@ class FaceData():
         folder_paths = [] # Keep track of the folder paths
         # Get all folders in the root_dir
         for folder in os.listdir(root_dir):
-
             # Create the exact folder path
             folder_path = os.path.join(os.path.abspath('.'), root_dir, folder)
-
             # Check if 'folder' is an actual folder
             if os.path.isdir(folder_path):
-                # Count the number of labels (=folders)
-                self.n_labels += 1
-                # Create the label string 
-                label = folder[5:].lower().replace(' ', '_')
-                
                 # Check if there are enough pictures 
-                if len(os.listdir(folder_path)) < self.min_pictures:
-                    # If there are not enough pictures remove them from the labels and folders count
-                    self.n_labels -= 1
-                    n_folders -= 1
-                    # Skip the folder
-                    continue
-                
-                # Keep trach of folder paths and labels, to loop over lateron
-                folder_paths.append(folder_path)
-                self.FACES_LABELS.append(label)
+                if len(os.listdir(folder_path)) >= self.min_pictures:
+                    # Count the number of labels (=folders)
+                    self.n_labels += 1
+                    # Create the label string 
+                    label = folder[5:].lower().replace(' ', '_')
+                    folder_paths.append(folder_path)
+                    self.FACES_LABELS.append(label)                    
 
-
+        print(n_folders, self.n_labels, len(folder_paths))
+        # print('fp', folder_paths)
         for indx, path in enumerate(folder_paths):
             # Loop trough files in the folder  
-            # print(path, indx)
             # Limit at self.max_pictures
-            for file in tqdm(os.listdir(path)[:self.max_pictures]):
+            for file in os.listdir(path)[:self.max_pictures]:
                 # Construct abs file path
-                file_path = os.path.join(folder_path, file)
+                file_path = os.path.join(path, file)
+                # print(file_path)
                 # Check if it is an file
+                # print(file_path)
                 if os.path.isfile(file_path):
                     try:
                         # Load image in grayscale
@@ -93,14 +88,15 @@ class FaceData():
                         img = cv2.resize(img, (self.IMG_SIZE, self.IMG_SIZE))
                         # Add label
                         label = self.FACES_LABELS[indx]
-                        print(folder_path, label)
                         # Add to training_data
                         self.training_data.append([np.array(img), np.eye(self.n_labels)[self.FACES_LABELS.index(label)]])
                     except Exception as e:
+                        del self.FACES_LABELS[indx]
                         print(str(e))
         
-
+        #print(n_folders, self.n_labels, len(folder_paths))
         np.random.shuffle(self.training_data)
+        #print(len(self.training_data))
         return self.training_data
         
                         
