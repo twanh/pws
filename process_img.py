@@ -52,7 +52,6 @@ class FaceData():
         # Make scoped copy of self.ROOT_DIR        
         # Also convert it to a os dir
         root_dir = self.ROOT_DIR
-        n_folders = len(os.listdir(root_dir))
         folder_paths = [] # Keep track of the folder paths
         # Get all folders in the root_dir
         for folder in os.listdir(root_dir):
