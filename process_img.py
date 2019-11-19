@@ -68,18 +68,13 @@ class FaceData():
                     label = folder[5:].lower().replace(' ', '_')
                     folder_paths.append(folder_path)
                     self.FACES_LABELS.append(label)                    
-
-        print(n_folders, self.n_labels, len(folder_paths))
-        # print('fp', folder_paths)
         for indx, path in enumerate(folder_paths):
             # Loop trough files in the folder  
             # Limit at self.max_pictures
             for file in os.listdir(path)[:self.max_pictures]:
                 # Construct abs file path
                 file_path = os.path.join(path, file)
-                # print(file_path)
                 # Check if it is an file
-                # print(file_path)
                 if os.path.isfile(file_path):
                     try:
                         # Load image in grayscale
@@ -93,10 +88,8 @@ class FaceData():
                     except Exception as e:
                         del self.FACES_LABELS[indx]
                         print(str(e))
-        
-        #print(n_folders, self.n_labels, len(folder_paths))
+    
         np.random.shuffle(self.training_data)
-        #print(len(self.training_data))
         return self.training_data
         
                         
