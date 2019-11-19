@@ -90,7 +90,7 @@ class FaceData():
                         print(str(e))
     
         np.random.shuffle(self.training_data)
-        return self.training_data
+        return [self.training_data, self.FACES_LABELS]
         
                         
 
