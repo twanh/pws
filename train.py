@@ -66,17 +66,19 @@ for epoch in range(EPOCHS):
         batch_y = train_y[i:i+BATCH_SIZE]
         print(batch_X.shape)
         print(batch_y.shape)
+        print(batch_y)
         
         # Zero the gradients for optimal learning and no bias
         optimizer.zero_grad()
         outputs = face_net(batch_X)
-        loss = loss_function(outputs, batch_y)
-        loss.backward()
+        print(outputs.shape)
+        # loss = loss_function(outputs, batch_y)
+        # loss.backward()
         optimizer.step()
 
-        print(f"Epoch: {epoch}\n LossL {loss}")
+        print(f"Epoch: {epoch}\n")
 
-print(loss) # Debug
+#print(loss) # Debug
 
 ### TESTING
 
