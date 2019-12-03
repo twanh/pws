@@ -1,12 +1,18 @@
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
+## net.py
+## Layout the neural network using PyTorch
+## NO training is done, this is only the specification
+
+#----! IMPORTS !----#
+
+import torch # For pytorch
+import torch.nn as nn # Pytorch nerual networks
+import torch.nn.functional as F # Pytorch nueral networks functions
 
 
 class FaceNet(nn.Module):
     '''
     FaceNet
-    * The neural network that will learn to reconize face
+    * The neural network that will learn to reconize faces
     '''
     def __init__(self):
         '''
