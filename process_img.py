@@ -1,4 +1,4 @@
-## input.py
+## process_img.py
 ## Process input images (data) to fit the requirements of the AI
 
 ## DONWLOAD CURRENT DATASET? See dropbox paper links (ask Twan)
