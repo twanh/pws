@@ -3,3 +3,4 @@ faces/
 *.npy
 __pycache__/
 raw
+julian_twan/
