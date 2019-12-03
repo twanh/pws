@@ -1,3 +1,8 @@
+## train.py
+## Train the neural network (from net.py) with the training data (V2 or V1)
+
+#----! IMPorTS !----#
+
 # Py torch nueral network models/funcs
 import torch
 import torch.nn as nn
@@ -8,19 +13,21 @@ from tqdm import tqdm
 
 # Data manipulation/storage
 import numpy as np
-# Get acces to the variables used to prepare the data
-from process_img import FaceData
 # Get the facenet
 from net import FaceNet
 
+#----! SETUP !----#
 
 # Initilizate FaceNet model def
 face_net = FaceNet()
-face_data = FaceData()
 
 # Get the training data
-file_data = np.load('training_data.npy', allow_pickle=True)
-training_data, labels = file_data[0], file_data[1]
+# TODO: CMD arg
+training_data_file_name = 'julian_twan_training_data_1575409409.1191235.npy' # CHANGE TO THE DATA YOu WANT TO USE
+file_data = np.load(training_data_file_name, allow_pickle=True)
+print(file_data)
+training_data = file_data
+
 
 ## Create the optimizer
 optimizer = optim.Adam(face_net.parameters(), lr=0.01)
@@ -33,7 +40,7 @@ loss_function = nn.MSELoss()
 
 # i[0] is the image data
 # i[1] is the coresponding result (aka label) list/array
-X = torch.Tensor([i[0] for i in training_data]).view(-1,50,50)
+X = torch.Tensor([i[0] for i in file_data]).reshape(-1,50,50)# Reshape to 50x50
 X = X/255.0  # Nomraly pixel values are between 0-255 we want them to be between 0-1 (performace, ease of learning)
 y = torch.Tensor([i[1] for i in training_data])
 
@@ -44,11 +51,11 @@ val_size = int(len(X)*VAL_PCT)
 print(val_size) #Debug
 
 # Create the training and testing data portions by slicing them
-train_x = X[:-val_size]
+train_X = X[:-val_size]
 train_y = y[:-val_size]
 
-test_X = X[-val_size]
-test_y = y[-val_size]
+test_X = X[-val_size:]
+test_y = y[-val_size:]
 
 #### TRaINING !!!!
 # The amount of images being processed at once, depends on availble memoery
@@ -60,9 +67,9 @@ EPOCHS = 1 #TODO: No hardcoding
 for epoch in range(EPOCHS):
     # Loop over the data
     # range(start, end, step_size)
-    for i in tqdm(range(0, len(train_x), BATCH_SIZE)):
+    for i in tqdm(range(0, len(train_X), BATCH_SIZE)):
         # Create batches
-        batch_X = train_x[i:i+BATCH_SIZE].view(-1, 1, 50, 50)
+        batch_X = train_X[i:i+BATCH_SIZE].view(-1, 1, 50, 50)
         batch_y = train_y[i:i+BATCH_SIZE]
         print(batch_X.shape)
         print(batch_y.shape)
