@@ -7,7 +7,7 @@ matplotlib==3.1.1
 mccabe==0.6.1
 numpy==1.21.0
 opencv-python==4.2.0.32
-Pillow==9.0.1
+Pillow==9.3.0
 ptvsd==4.3.2
 pylint==2.4.3
 pyparsing==2.4.5
